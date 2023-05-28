@@ -1,0 +1,43 @@
+{
+	"name": "bankly",
+	"version": "1.0.0",
+	"description": "",
+	"main": "app.js",
+	"scripts": {
+		"seed": "dropdb bankly && createdb bankly && psql bankly < data.sql && dropdb bankly_test && createdb bankly_test && psql bankly_test < data.sql",
+		"debug": "nodemon --inspect server.js",
+		"dev:setup": "npm i --save-dev jest morgan nodemon supertest",
+		"setup": "npm i  bcrypt body-parser colors dotenv express helmet jsonschema jsonwebtoken pg ",
+		"start": "nodemon server.js",
+		"test": "jest -i --coverage --verbose --detectOpenHandles"
+	},
+	"jest": {
+		"testPathIgnorePatterns": [
+			"/node_modules/",
+			"config.js"
+		]
+	},
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"bcrypt": "^5.1.0",
+		"body-parser": "^1.20.2",
+		"colors": "^1.4.0",
+		"dotenv": "^8.6.0",
+		"express": "^4.18.2",
+		"helmet": "^7.0.0",
+		"jsonschema": "^1.4.1",
+		"jsonwebtoken": "^9.0.0",
+		"pg": "^8.11.0"
+	},
+	"devDependencies": {
+		"jest": "^29.5.0",
+		"morgan": "^1.10.0",
+		"nodemon": "^2.0.22",
+		"supertest": "^6.3.3"
+	},
+	"nodemonConfig": {
+		"ext": "html, css, js, json, md, py, sql",
+		"verbose": true
+	}
+}
