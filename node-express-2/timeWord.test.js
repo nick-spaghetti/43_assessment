@@ -16,6 +16,8 @@ describe("#timeWord", () => {
 	});
 	test("convert pm time correctly", () => {
 		expect(timeWord("12:00")).toBe("noon");
+		expect(timeWord("13:00")).toBe("one o'clock pm");
+		expect(timeWord("15:23")).toBe("three twenty-three pm");
 		// expect(timeWord("12:09")).toBe("twelve oh nine pm");
 		expect(timeWord("23:23")).toBe("eleven twenty-three pm");
 	});

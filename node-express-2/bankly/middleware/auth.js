@@ -1,34 +1,34 @@
 /** Middleware for handling req authorization for routes. */
 
-const jwt = require('jsonwebtoken');
-const { SECRET_KEY } = require('../config');
+const jwt = require("jsonwebtoken");
+const { SECRET_KEY } = require("../config");
 
 /** Authorization Middleware: Requires user is logged in. */
 
 function requireLogin(req, res, next) {
-  try {
-    if (req.curr_username) {
-      return next();
-    } else {
-      return next({ status: 401, message: 'Unauthorized' });
-    }
-  } catch (err) {
-    return next(err);
-  }
+	try {
+		if (req.curr_username) {
+			return next(); // Call next() without any parameter
+		} else {
+			return next({ status: 401, message: "Unauthorized" });
+		}
+	} catch (err) {
+		return next(err); // Pass the error to the next middleware
+	}
 }
 
 /** Authorization Middleware: Requires user is logged in and is staff. */
 
 function requireAdmin(req, res, next) {
-  try {
-    if (req.curr_admin) {
-      return next();
-    } else {
-      return next({ status: 401, message: 'Unauthorized' });
-    }
-  } catch (err) {
-    return next(err);
-  }
+	try {
+		if (req.curr_admin) {
+			return next(); // Call next() without any parameter
+		} else {
+			return next({ status: 401, message: "Unauthorized" });
+		}
+	} catch (err) {
+		return next(err); // Pass the error to the next middleware
+	}
 }
 
 /** Authentication Middleware: put user on request
@@ -45,22 +45,22 @@ function requireAdmin(req, res, next) {
  **/
 
 function authUser(req, res, next) {
-  try {
-    const token = req.body._token || req.query._token;
-    if (token) {
-      let payload = jwt.decode(token);
-      req.curr_username = payload.username;
-      req.curr_admin = payload.admin;
-    }
-    return next();
-  } catch (err) {
-    err.status = 401;
-    return next(err);
-  }
-} // end
+	try {
+		const token = req.body._token || req.query._token;
+		if (token) {
+			let payload = jwt.verify(token, SECRET_KEY);
+			req.curr_username = payload.username;
+			req.curr_admin = payload.admin;
+		}
+		return next(); // Call next() without any parameter
+	} catch (err) {
+		err.status = 401;
+		return next(err); // Pass the error to the next middleware
+	}
+}
 
 module.exports = {
-  requireLogin,
-  requireAdmin,
-  authUser
+	requireLogin,
+	requireAdmin,
+	authUser,
 };
